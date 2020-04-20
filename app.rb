@@ -14,7 +14,6 @@ end
 require 'sinatra/streaming'
 
 require './bootstrap.rb'
-require './raven_config.rb'
 require './configuration.rb'
 require './authentication.rb'
 require './sinatra_responder.rb'

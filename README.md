@@ -8,6 +8,7 @@ to implement textual searching.
   - **DATABASE_URL**: Postgresql database url.
   - **DEFAULT_CORE_LANG**: Default core lang support.
   - **DOCUMENT_TABLE_NAME**: The name of table used by mini search server to store documents in postgres default 'documents'.
+  - **AUTH_TOKEN**: Authentication token passed via http header `AuthToken`.
 
 ## Endpoints
 

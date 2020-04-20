@@ -13,10 +13,6 @@ gem 'activesupport', require: %w[active_support/dependencies]
 gem 'mini_search'
 gem 'oj'
 gem 'pg'
-gem 'phashion'
-gem 'rest-client'
-gem 'rmagick', require: 'rmagick'
-gem 'sentry-raven'
 gem 'sinatra'
 gem 'sinatra-reloader'
 

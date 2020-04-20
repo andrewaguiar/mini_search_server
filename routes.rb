@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-get '/' do
-  Oj.dump('banner' => Banner.show)
-end
-
 get '/info' do
   Oj.dump(GetInfo.call)
 end

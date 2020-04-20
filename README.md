@@ -5,15 +5,17 @@ textual searching.
 
 ## Configuration
 
-Envs:
   - **DATABASE_URL**: Postgresql database url.
   - **DEFAULT_CORE_LANG**: Default core lang support.
+  - **DOCUMENT_TABLE_NAME**: The name of table used by mini search server to store documents in postgres.
 
 ## Endpoints
 
+Mini Search Server follows restfull style in its endpoints.
+
 ### Indexing a document
 
-POST `/cores/:core/document/:id`
+`POST /cores/:core/document/:id`
 
 Params:
   - **core**: The core where the document lives.
@@ -23,7 +25,7 @@ Params:
 
 ### Search documents by terms
 
-GET `/cores/:core/documents` -d "terms=Doge"
+`GET /cores/:core/documents -d "terms=Doge"`
 
 Params:
   - **core**: The core where the document lives.
@@ -32,7 +34,7 @@ Params:
 
 ### Get document by id
 
-GET `/cores/:core/document/:id`
+`GET /cores/:core/document/:id`
 
 Params:
   - **core**: The core where the document lives.
@@ -41,7 +43,7 @@ Params:
 
 ### Delete document by id
 
-DELETE `/cores/:core/document/:id`
+`DELETE /cores/:core/document/:id`
 
 Params:
   - **core**: The core where the document lives.

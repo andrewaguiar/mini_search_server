@@ -16,7 +16,7 @@ class Cores
       i += 1
     end
 
-    puts "Cores :: initialized with #{i} documents and #{keys.size} cores"
+    puts "Cores :: initialized with #{i} documents and #{names.size} cores"
   end
 
   def self.persist(core, id, content)
@@ -35,13 +35,13 @@ class Cores
     !cores[core].nil?
   end
 
+  def self.names
+    cores.keys
+  end
+
   private_class_method def self.get_core(core)
     cores[core] = MiniSearch.new_localized_index(ENV['DEFAULT_CORE_LANG'].to_sym) unless exists?(core)
     cores[core]
-  end
-
-  private_class_method def self.keys
-    cores.keys
   end
 
   private_class_method def self.cores

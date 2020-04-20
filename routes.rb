@@ -4,13 +4,7 @@ get '/info' do
   Oj.dump(GetInfo.call)
 end
 
-post '/cores/:core/document/:id' do |core, id|
-  respond(
-    self,
-    IndexDocument.call(core: core, id: id, content: params[:content])
-  )
-end
-
+# Search documents
 get '/cores/:core/documents' do |core|
   respond(
     self,
@@ -18,6 +12,7 @@ get '/cores/:core/documents' do |core|
   )
 end
 
+# Get document by core and id
 get '/cores/:core/documents/:id' do |core, id|
   respond(
     self,
@@ -25,6 +20,21 @@ get '/cores/:core/documents/:id' do |core, id|
   )
 end
 
+# Index document
+post '/cores/:core/document/:id' do |core, id|
+  respond(self,
+    IndexDocument.call(core: core, id: id, content: params[:content])
+  )
+end
+
+# Update document
+put '/cores/:core/document/:id' do |core, id|
+  respond(self,
+    UpdateDocument.call(core: core, id: id, content: params[:content])
+  )
+end
+
+# Delete document by id
 delete '/cores/:core/document/:id' do |core, id|
   respond(
     self,

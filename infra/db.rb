@@ -4,10 +4,10 @@ class Db
   require 'pg'
 
   def self.init
-    puts 'DB :: Creating documents table'
+    puts "DB :: Creating #{document_table_name} table"
 
     conn.exec(
-      'CREATE TABLE IF NOT EXISTS documents (' \
+      "CREATE TABLE IF NOT EXISTS #{document_table_name} (" \
       '  id serial NOT NULL PRIMARY KEY,' \
       '  external_id integer NOT NULL,' \
       '  core varchar(100) NOT NULL,' \
@@ -16,21 +16,27 @@ class Db
     )
 
     conn.exec(
-      'CREATE UNIQUE INDEX IF NOT EXISTS core_external_id ON documents (core, external_id)'
+      "CREATE UNIQUE INDEX IF NOT EXISTS core_external_id ON #{document_table_name} (core, external_id)"
     )
   end
 
   def self.all_documents
-    conn.exec('SELECT core, external_id, content FROM documents')
+    conn.exec(
+      "SELECT core, external_id, content FROM #{document_table_name}"
+    )
   end
 
   def self.count_documents
-    conn.exec('SELECT count(id) AS c FROM documents')[0]['c']
+    result = conn.exec(
+      "SELECT count(id) AS c FROM #{document_table_name}"
+    )
+
+    result.getvalue(0,0)
   end
 
   def self.get(core, id)
     result = conn.exec_params(
-      'SELECT external_id, core, content FROM documents WHERE core = $1 AND external_id = $2',
+      "SELECT external_id, core, content FROM #{document_table_name} WHERE core = $1 AND external_id = $2",
       [core, id]
     )
 
@@ -38,12 +44,25 @@ class Db
   end
 
   def self.persist(core, id, content)
-    conn.exec_params(
-      'INSERT INTO documents(core, external_id, content) VALUES ($1, $2, $3)',
+    result = conn.exec_params(
+      "INSERT INTO #{document_table_name}(core, external_id, content) VALUES ($1, $2, $3)",
       [core, id, content]
     )
 
-    true
+    result.cmd_tuples == 1
+  rescue StandardError => e
+    raise e unless e.message =~ /duplicate key value violates unique constraint/
+
+    false
+  end
+
+  def self.update(core, id, content)
+    result = conn.exec_params(
+      "UPDATE #{document_table_name} SET content = $1 WHERE core = $2 AND external_id = $3",
+      [content, core, id]
+    )
+
+    result.cmd_tuples == 1
   rescue StandardError => e
     raise e unless e.message =~ /duplicate key value violates unique constraint/
 
@@ -52,7 +71,7 @@ class Db
 
   def self.delete(core, id)
     result = conn.exec_params(
-      'DELETE FROM documents WHERE core = $1 AND external_id = $2',
+      "DELETE FROM #{document_table_name} WHERE core = $1 AND external_id = $2",
       [core, id]
     )
 
@@ -75,5 +94,9 @@ class Db
       uri.user,
       uri.password
     )
+  end
+
+  private_class_method def self.document_table_name
+    ENV['DOCUMENT_TABLE_NAME'] || 'documents'
   end
 end

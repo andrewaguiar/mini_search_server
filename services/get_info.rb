@@ -3,7 +3,7 @@
 class GetInfo
   def self.call
     {
-      cores: Cores.keys,
+      cores: Cores.names,
       documents: Db.count_documents,
       version: '0.1.1'
     }

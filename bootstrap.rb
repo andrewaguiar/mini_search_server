@@ -6,8 +6,6 @@ require 'net/http'
 require 'oj'
 require 'open3'
 require 'open-uri'
-require 'phashion'
-require 'rmagick'
 require 'securerandom'
 require 'tempfile'
 
@@ -16,7 +14,6 @@ Bundler.require
 
 # Set autoloading directories
 ActiveSupport::Dependencies.autoload_paths += %w[infra middlewares services]
-
 
 Dotenv.load
 

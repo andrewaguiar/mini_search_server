@@ -23,15 +23,13 @@ end
 # Index document
 post '/cores/:core/document/:id' do |core, id|
   respond(self,
-    IndexDocument.call(core: core, id: id, content: params[:content])
-  )
+          IndexDocument.call(core: core, id: id, content: params[:content]))
 end
 
 # Update document
 put '/cores/:core/document/:id' do |core, id|
   respond(self,
-    UpdateDocument.call(core: core, id: id, content: params[:content])
-  )
+          UpdateDocument.call(core: core, id: id, content: params[:content]))
 end
 
 # Delete document by id

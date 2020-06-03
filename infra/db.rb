@@ -31,7 +31,7 @@ class Db
       "SELECT count(id) AS c FROM #{document_table_name}"
     )
 
-    result.getvalue(0,0)
+    result.getvalue(0, 0)
   end
 
   def self.get(core, id)
